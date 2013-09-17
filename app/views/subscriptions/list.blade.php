@@ -43,6 +43,7 @@
 					<div class="list-group subscription-list">
 						@foreach ($subs['items'] as $sub)
 							<a class="list-group-item" href="{{ URL::to('channels/'.$sub['snippet']['resourceId']['channelId']) }}">
+								<span class="badge badge-default">{{ $sub['contentDetails']['totalItemCount'] }}</span>
 								<div class="media">
 									<span class="pull-left">
 										<img class="media-object" src="{{ $sub['snippet']['thumbnails']['default']['url'] }}" />
