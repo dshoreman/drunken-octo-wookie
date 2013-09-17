@@ -4,13 +4,13 @@ $(document).ready(function() {
 		$('.row-offcanvas').toggleClass('active');
 	});
 
-	$('.subscription-list a').click(function(e) {
+	$('body').on('click', 'a[href*="/channels/"], a[href*="/subscriptions/"]', function(e) {
 
 		e.preventDefault();
 
 		$('.main-content-panel').load($(this).attr('href'), function() {
 
-			$("html, body").animate({ scrollTop: 0 }, "slow");
+			$('html, body').animate({scrollTop: 0}, 'slow');
 
 		});
 	});

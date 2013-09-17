@@ -1,3 +1,5 @@
+{{ Breadcrumbs::render('playlist', $list, $channel) }}
+
 <div class="media">
 	<a href="#" class="pull-left">
 		<img src="{{ $list['snippet']['thumbnails']['default']['url'] }}" />

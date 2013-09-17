@@ -10,7 +10,8 @@
 	],
 	"require": {
 		"laravel/framework": "4.0.*",
-		"google/api-client": "dev-master"
+		"google/api-client": "dev-master",
+		"davejamesmiller/laravel-breadcrumbs": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
