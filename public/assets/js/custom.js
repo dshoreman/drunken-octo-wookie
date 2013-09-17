@@ -8,7 +8,11 @@ $(document).ready(function() {
 
 		e.preventDefault();
 
-		$('.main-content-panel').load($(this).attr('href'));
+		$('.main-content-panel').load($(this).attr('href'), function() {
+
+			$("html, body").animate({ scrollTop: 0 }, "slow");
+
+		});
 	});
 
 });
