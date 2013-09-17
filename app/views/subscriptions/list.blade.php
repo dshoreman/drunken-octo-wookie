@@ -57,6 +57,10 @@
 				</div>
 
 				<div class="col-xs-12 col-md-7 col-lg-8">
+					<p class="pull-left visible-xs">
+						<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+					</p>
+
 					<div class="main-content-panel"></div>
 				</div>
 			</div>
