@@ -1,3 +1,5 @@
+{{ Breadcrumbs::render('channel', $channel) }}
+
 <div class="media">
 	<a href="#" class="pull-left">
 		<img src="{{ $channel['snippet']['thumbnails']['default']['url'] }}" />
