@@ -64,6 +64,17 @@ body {
 	}
 }
 
+
+/**
+ * Video / playlist stuff
+ */
+
+.video .panel-body {
+}
+.video .description {
+	height: 60px;
+}
+
 /**
  * Custom bootstrap stuff
  */

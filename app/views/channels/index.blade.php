@@ -14,7 +14,7 @@
 </ul>
 
 <div class="tab-content">
-	<div class="tab-pane fade active in" id="playlists">
+	<div class="tab-pane fade active in playlists">
 		@foreach ($playlists['items'] as $item)
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -22,7 +22,7 @@
 				</div>
 				<div class="panel-body">
 					<div class="media">
-						<a href="#" class="pull-left">
+						<a href="{{ URL::to('playlists/'.$item['id']) }}" class="pull-left">
 							<img src="{{ $item['snippet']['thumbnails']['default']['url'] }}" />
 						</a>
 						<div class="media-body">
@@ -41,9 +41,18 @@
 <script type="text/javascript">
 
 	$('#channel_tabs a').click(function(e) {
+
 		e.preventDefault();
 
 		$(this).tab('show');
+	});
+
+	$('.playlists a').click(function(e) {
+
+		e.preventDefault();
+
+		$('.main-content-panel').load($(this).attr('href'));
+
 	});
 
 </script>

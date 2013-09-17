@@ -96,6 +96,37 @@ Route::get('channels/{id}', function($id) use ($client, $youtube)
 	]);
 });
 
+Route::get('playlists/{id}', function($id) use ($client, $youtube)
+{
+	if ($token = Session::get('token'))
+	{
+		$client->setAccessToken($token);
+	}
+
+	if ( ! $client->getAccessToken())
+	{
+		$state = mt_rand();
+		$client->setState($state);
+		Session::put('state', $state);
+
+		return Redirect::to($client->createAuthUrl());
+	}
+
+	$list = $youtube->playlists->listPlaylists('id,snippet,status', [
+		'id' => $id,
+	]);
+
+	$items = $youtube->playlistItems->listPlaylistItems('id,snippet,contentDetails,status', [
+		'playlistId' => $id,
+		'maxResults' => 50,
+	]);
+
+	return View::make('playlists.index', [
+		'list' => $list['items'][0],
+		'items' => $items['items'],
+	]);
+});
+
 Route::get('oauth', function() use ($client, $youtube)
 {
 	if ( ! $code = Input::get('code'))
