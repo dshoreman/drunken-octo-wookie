@@ -39,25 +39,3 @@
 		<h3>Videos</h3>
 	</div>
 </div>
-
-<script type="text/javascript">
-
-	$('#channel_tabs a').click(function(e) {
-
-		e.preventDefault();
-
-		$(this).tab('show');
-	});
-
-	$('.playlists a').click(function(e) {
-
-		e.preventDefault();
-
-		$('.main-content-panel').load($(this).attr('href'), function() {
-
-			$("html, body").animate({ scrollTop: 0 }, "slow");
-
-		});
-	});
-
-</script>

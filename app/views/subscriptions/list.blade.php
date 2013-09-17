@@ -82,8 +82,6 @@
 
 			return;
 		}
-
-		debug('Debug mode on');
 		</script>
 		<script src="/assets/js/custom.js"></script>
 	</body>
