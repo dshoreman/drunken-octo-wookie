@@ -62,7 +62,11 @@
 						<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
 					</p>
 
-					<div class="main-content-panel"></div>
+					<div class="main-content-panel">
+
+						{{ Breadcrumbs::render('home') }}
+
+					</div>
 				</div>
 			</div>
 
@@ -78,8 +82,6 @@
 
 			return;
 		}
-
-		debug('Debug mode on');
 		</script>
 		<script src="/assets/js/custom.js"></script>
 	</body>

@@ -22,7 +22,7 @@ $youtube = new Google_YoutubeService($client);
 |
 */
 
-Route::get('/', function() use ($client, $youtube)
+Route::get('/', ['as' => 'dashboard', function() use ($client, $youtube)
 {
 	if ($token = Session::get('token'))
 	{
@@ -63,7 +63,74 @@ Route::get('/', function() use ($client, $youtube)
 
 	return $htmlBody;
 
-});
+}]);
+
+Route::get('channels/{id}', ['as' => 'channels', function($id) use ($client, $youtube)
+{
+	if ($token = Session::get('token'))
+	{
+		$client->setAccessToken($token);
+	}
+
+	if ( ! $client->getAccessToken())
+	{
+		$state = mt_rand();
+		$client->setState($state);
+		Session::put('state', $state);
+
+		return Redirect::to($client->createAuthUrl());
+	}
+
+	$channel = $youtube->channels->listchannels('id,snippet,status', [
+		'id' => $id,
+	]);
+
+	$playlists = $youtube->playlists->listPlaylists('id,snippet,status', [
+		'channelId' => $id,
+		'maxResults' => 50,
+	]);
+
+	return View::make('channels.index', [
+		'channel' => $channel['items'][0],
+		'playlists' => $playlists,
+	]);
+}]);
+
+Route::get('playlists/{id}', ['as' => 'playlists', function($id) use ($client, $youtube)
+{
+	if ($token = Session::get('token'))
+	{
+		$client->setAccessToken($token);
+	}
+
+	if ( ! $client->getAccessToken())
+	{
+		$state = mt_rand();
+		$client->setState($state);
+		Session::put('state', $state);
+
+		return Redirect::to($client->createAuthUrl());
+	}
+
+	$list = $youtube->playlists->listPlaylists('id,snippet,status', [
+		'id' => $id,
+	]);
+
+	$channel = $youtube->channels->listchannels('snippet', [
+		'id' => $list['items'][0]['snippet']['channelId'],
+	]);
+
+	$items = $youtube->playlistItems->listPlaylistItems('id,snippet,contentDetails,status', [
+		'playlistId' => $id,
+		'maxResults' => 50,
+	]);
+
+	return View::make('playlists.index', [
+		'channel' => $channel['items'][0],
+		'list' => $list['items'][0],
+		'items' => $items['items'],
+	]);
+}]);
 
 Route::get('oauth', function() use ($client, $youtube)
 {
