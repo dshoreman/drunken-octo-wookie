@@ -65,6 +65,37 @@ Route::get('/', function() use ($client, $youtube)
 
 });
 
+Route::get('channels/{id}', function($id) use ($client, $youtube)
+{
+	if ($token = Session::get('token'))
+	{
+		$client->setAccessToken($token);
+	}
+
+	if ( ! $client->getAccessToken())
+	{
+		$state = mt_rand();
+		$client->setState($state);
+		Session::put('state', $state);
+
+		return Redirect::to($client->createAuthUrl());
+	}
+
+	$channel = $youtube->channels->listchannels('id,snippet,status', [
+		'id' => $id,
+	]);
+
+	$playlists = $youtube->playlists->listPlaylists('id,snippet,status', [
+		'channelId' => $id,
+		'maxResults' => 50,
+	]);
+
+	return View::make('channels.index', [
+		'channel' => $channel['items'][0],
+		'playlists' => $playlists,
+	]);
+});
+
 Route::get('oauth', function() use ($client, $youtube)
 {
 	if ( ! $code = Input::get('code'))

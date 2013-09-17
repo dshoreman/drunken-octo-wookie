@@ -4,4 +4,11 @@ $(document).ready(function() {
 		$('.row-offcanvas').toggleClass('active');
 	});
 
+	$('.subscription-list a').click(function(e) {
+
+		e.preventDefault();
+
+		$('.main-content-panel').load($(this).attr('href'));
+	});
+
 });
