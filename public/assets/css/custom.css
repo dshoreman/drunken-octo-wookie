@@ -1,0 +1,123 @@
+body {
+	padding-top: 50px;
+}
+
+.subscription-list {
+}
+
+.subscription-list .badge {
+	margin-top: 2px;
+}
+
+.subscription-list .media {
+	margin-top: 0;
+}
+
+.subscription-list .media-object {
+	height: 22px;
+	width: 22px;
+}
+
+.subscription-list .media-heading {
+	margin-top: 3px;
+	margin-bottom: 0;
+}
+
+
+.tab-content {
+	border: 1px solid #ddd;
+	border-top: 0;
+	padding: 5px 10px;
+}
+
+
+@media screen and (max-width: 768px) {
+	.row-offcanvas {
+		position: relative;
+		-webkit-transition: all 0.25s ease-out;
+		-moz-transition: all 0.25s ease-out;
+		transition: all 0.25s ease-out;
+	}
+
+	.row-offcanvas-right
+	.sidebar-offcanvas {
+		right: -50%; /* 6 columns */
+	}
+
+	.row-offcanvas-left
+	.sidebar-offcanvas {
+		left: -50%; /* 6 columns */
+	}
+
+	.row-offcanvas-right.active {
+		right: 50%; /* 6 columns */
+	}
+
+	.row-offcanvas-left.active {
+		left: 50%; /* 6 columns */
+	}
+
+	.sidebar-offcanvas {
+		position: absolute;
+		top: 0;
+		width: 50%; /* 6 columns */
+	}
+}
+
+/**
+ * Custom bootstrap stuff
+ */
+
+.badge-default {
+  background-color: #999999;
+}
+
+.badge-default[href]:hover,
+.badge-default[href]:focus {
+  background-color: #808080;
+}
+
+.badge-primary {
+  background-color: #428bca;
+}
+
+.badge-primary[href]:hover,
+.badge-primary[href]:focus {
+  background-color: #3071a9;
+}
+
+.badge-success {
+  background-color: #5cb85c;
+}
+
+.badge-success[href]:hover,
+.badge-success[href]:focus {
+  background-color: #449d44;
+}
+
+.badge-info {
+  background-color: #5bc0de;
+}
+
+.badge-info[href]:hover,
+.badge-info[href]:focus {
+  background-color: #31b0d5;
+}
+
+.badge-warning {
+  background-color: #f0ad4e;
+}
+
+.badge-warning[href]:hover,
+.badge-warning[href]:focus {
+  background-color: #ec971f;
+}
+
+.badge-danger {
+  background-color: #d9534f;
+}
+
+.badge-danger[href]:hover,
+.badge-danger[href]:focus {
+  background-color: #c9302c;
+}
