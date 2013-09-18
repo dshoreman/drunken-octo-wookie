@@ -132,6 +132,35 @@ Route::get('playlists/{id}', ['as' => 'playlists', function($id) use ($client, $
 	]);
 }]);
 
+
+Route::get('videos/{id}', ['as' => 'player', function($id) use ($client, $youtube)
+{
+	if ($token = Session::get('token'))
+	{
+		$client->setAccessToken($token);
+	}
+
+	if ( ! $client->getAccessToken())
+	{
+		$state = mt_rand();
+		$client->setState($state);
+		Session::put('state', $state);
+
+		return Redirect::to($client->createAuthUrl());
+	}
+
+	$video = $youtube->videos->listVideos($id, 'snippet,player,statistics')['items'][0];
+
+	$channel = $youtube->channels->listchannels('snippet', [
+		'id' => $video['snippet']['channelId'],
+	])['items'][0];
+
+	return View::make('videos.play', [
+		'channel' => $channel,
+		'video' => $video,
+	]);
+}]);
+
 Route::get('oauth', function() use ($client, $youtube)
 {
 	if ( ! $code = Input::get('code'))

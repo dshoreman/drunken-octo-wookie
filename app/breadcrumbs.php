@@ -18,3 +18,10 @@ Breadcrumbs::register('playlist', function($breadcrumbs, $playlist, $channel)
 
 	$breadcrumbs->push($playlist['snippet']['title'], route('playlists', $playlist['id']));
 });
+
+Breadcrumbs::register('video', function($breadcrumbs, $video, $channel)
+{
+	$breadcrumbs->parent('channel', $channel);
+
+	$breadcrumbs->push($video['snippet']['title'], route('player', $video['id']));
+});

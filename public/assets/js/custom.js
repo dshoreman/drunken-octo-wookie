@@ -12,7 +12,12 @@ $(document).ready(function() {
 	/**
 	 * Handle internal links for a smoother experience
 	 */
-	$('body').on('click', 'a[href*="/channels/"], a[href*="/playlists/"]', function(e) {
+	var elements = [
+		'a[href*="/channels/"]',
+		'a[href*="/playlists/"]',
+		'a[href*="/videos/"]'
+	];
+	$('body').on('click', elements.join(','), function(e) {
 
 		e.preventDefault();
 

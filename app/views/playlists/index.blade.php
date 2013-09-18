@@ -17,7 +17,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="media">
-				<a href="https://youtu.be/{{ $item['snippet']['resourceId']['videoId'] }}" class="pull-left" target="_blank">
+				<a href="{{ route('player', $item['snippet']['resourceId']['videoId']) }}" class="pull-left">
 					<img src="{{ $item['snippet']['thumbnails']['default']['url'] }}" />
 				</a>
 				<div class="media-body">
