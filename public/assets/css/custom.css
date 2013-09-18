@@ -24,6 +24,10 @@ body {
 }
 
 
+.main-content-panel {
+	margin-top: 20px;
+}
+
 .tab-content {
 	border: 1px solid #ddd;
 	border-top: 0;
@@ -133,6 +137,6 @@ body {
 	background-color: #c9302c;
 }
 
-ul.breadcrumb {
-	margin-top: 20px;
+.panel-danger pre dt {
+	font-family: Menlo, Consolas, "Courier New", monospace;
 }

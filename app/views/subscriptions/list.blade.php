@@ -82,6 +82,7 @@
 
 			return;
 		}
+		function debugging () { return {{ app('env') == 'production' ? 'false' : 'true' }}; }
 		</script>
 		<script src="/assets/js/custom.js"></script>
 	</body>
