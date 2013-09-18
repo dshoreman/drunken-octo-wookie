@@ -2,6 +2,7 @@
 
 $client = new Google_Client();
 
+$client->setDeveloperKey(Config::get('google.developerKey'));
 $client->setClientId(Config::get('google.clientId'));
 $client->setClientSecret(Config::get('google.clientSecret'));
 
@@ -81,18 +82,25 @@ Route::get('channels/{id}', ['as' => 'channels', function($id) use ($client, $yo
 		return Redirect::to($client->createAuthUrl());
 	}
 
-	$channel = $youtube->channels->listchannels('id,snippet,status', [
+	$channel = $youtube->channels->listchannels('id,snippet,status,contentDetails', [
 		'id' => $id,
-	]);
+	])['items'][0];
 
 	$playlists = $youtube->playlists->listPlaylists('id,snippet,status', [
 		'channelId' => $id,
 		'maxResults' => 50,
 	]);
 
+	$uploads = $channel['contentDetails']['relatedPlaylists']['uploads'];
+	$uploads = $youtube->playlistItems->listPlaylistItems('id,snippet,status', [
+		'playlistId' => $uploads,
+		'maxResults' => 50,
+	])['items'];
+
 	return View::make('channels.index', [
-		'channel' => $channel['items'][0],
+		'channel' => $channel,
 		'playlists' => $playlists,
+		'uploads' => $uploads,
 	]);
 }]);
 
@@ -120,7 +128,7 @@ Route::get('playlists/{id}', ['as' => 'playlists', function($id) use ($client, $
 		'id' => $list['items'][0]['snippet']['channelId'],
 	]);
 
-	$items = $youtube->playlistItems->listPlaylistItems('id,snippet,contentDetails,status', [
+	$items = $youtube->playlistItems->listPlaylistItems('id,snippet,status', [
 		'playlistId' => $id,
 		'maxResults' => 50,
 	]);
