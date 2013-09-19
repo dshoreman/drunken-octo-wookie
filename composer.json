@@ -6,12 +6,17 @@
 		{
 			"type": "vcs",
 			"url": "https://github.com/dshoreman/framework"
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/juncture/yt-wrapper"
 		}
 	],
 	"require": {
-		"laravel/framework": "4.0.*",
+		"laravel/framework": "4.1.*",
 		"google/api-client": "dev-master",
-		"davejamesmiller/laravel-breadcrumbs": "dev-master"
+		"davejamesmiller/laravel-breadcrumbs": "dev-master",
+		"juncture/yt-wrapper": "dev-develop"
 	},
 	"autoload": {
 		"classmap": [
