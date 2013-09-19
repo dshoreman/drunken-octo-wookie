@@ -722,12 +722,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/juncture/yt-wrapper.git",
-                "reference": "a3c664de049984438a30ae8671cf3a9cf95b64d0"
+                "reference": "1533002b29dc815f6f832064d23878a9d1bc1279"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/juncture/yt-wrapper/zipball/a3c664de049984438a30ae8671cf3a9cf95b64d0",
-                "reference": "a3c664de049984438a30ae8671cf3a9cf95b64d0",
+                "url": "https://api.github.com/repos/juncture/yt-wrapper/zipball/1533002b29dc815f6f832064d23878a9d1bc1279",
+                "reference": "1533002b29dc815f6f832064d23878a9d1bc1279",
                 "shasum": ""
             },
             "require": {
@@ -746,14 +746,15 @@
             "authors": [
                 {
                     "name": "Dave Shoreman",
-                    "email": "codeM0nK3Y@me.com"
+                    "email": "dave@daveshoreman.com"
                 }
             ],
+            "description": "Wrapper for the Youtube API",
             "support": {
                 "source": "https://github.com/juncture/yt-wrapper/tree/develop",
                 "issues": "https://github.com/juncture/yt-wrapper/issues"
             },
-            "time": "2013-09-18 15:15:26"
+            "time": "2013-09-19 21:34:39"
         },
         {
             "name": "laravel/framework",

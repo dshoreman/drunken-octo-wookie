@@ -22,14 +22,14 @@ Route::get('/', ['as' => 'dashboard', function()
 
 	try
 	{
-		$searchResponse = $youtube->subscriptions->listSubscriptions('id,snippet,contentDetails', [
-			'mine' => true,
-			'maxResults' => 50,
-			'order' => 'alphabetical',
-		]);
+		$subs = Youtube::subscriptions()
+				->where('mine', true)
+				->where('maxResults', 50)
+				->where('order', 'alphabetical')
+				->get('id,snippet,contentDetails');
 
 		return View::make('subscriptions.list', [
-			'subs' => $searchResponse,
+			'subs' => $subs,
 		]);
 	}
 	catch (Google_ServiceException $e)
@@ -56,25 +56,25 @@ Route::get('channels/{id}', ['as' => 'channels', function($id)
 		return Redirect::to(Youtube::getAuthUrl());
 	}
 
-	$channel = $youtube->channels->listchannels('id,snippet,status,contentDetails', [
-		'id' => $id,
-	])['items'][0];
+	$channel = Youtube::channels()
+				->where('id', $id)
+				->get('id,snippet,status,contentDetails')['items'][0];
 
-	$playlists = $youtube->playlists->listPlaylists('id,snippet,status', [
-		'channelId' => $id,
-		'maxResults' => 50,
-	]);
+	$playlists = Youtube::playlists()
+				->where('channelId', $id)
+				->where('maxResults', 50)
+				->get('id,snippet,status');
 
 	$uploads = $channel['contentDetails']['relatedPlaylists']['uploads'];
-	$uploads = $youtube->playlistItems->listPlaylistItems('id,snippet,status', [
-		'playlistId' => $uploads,
-		'maxResults' => 50,
-	])['items'];
+	$uploads = Youtube::playlistItems()
+				->where('playlistId', $uploads)
+				->where('maxResults', 50)
+				->get('id,snippet,status');
 
 	return View::make('channels.index', [
 		'channel' => $channel,
 		'playlists' => $playlists,
-		'uploads' => $uploads,
+		'uploads' => $uploads['items'],
 	]);
 }]);
 
@@ -87,18 +87,18 @@ Route::get('playlists/{id}', ['as' => 'playlists', function($id)
 		return Redirect::to(Youtube::getAuthUrl());
 	}
 
-	$list = $youtube->playlists->listPlaylists('id,snippet,status', [
-		'id' => $id,
-	]);
+	$list = Youtube::playlists()
+			->where('id', $id)
+			->get('id,snippet,status');
 
-	$channel = $youtube->channels->listchannels('snippet', [
-		'id' => $list['items'][0]['snippet']['channelId'],
-	]);
+	$channel = Youtube::channels()
+				->where('id', $list['items'][0]['snippet']['channelId'])
+				->get('snippet');
 
-	$items = $youtube->playlistItems->listPlaylistItems('id,snippet,status', [
-		'playlistId' => $id,
-		'maxResults' => 50,
-	]);
+	$items = Youtube::playlistItems()
+				->where('playlistId', $id)
+				->where('maxResults', 50)
+                ->get('id,snippet,status');
 
 	return View::make('playlists.index', [
 		'channel' => $channel['items'][0],
@@ -117,14 +117,14 @@ Route::get('videos/{id}', ['as' => 'player', function($id)
 		return Redirect::to(Youtube::getAuthUrl());
 	}
 
-	$video = $youtube->videos->listVideos($id, 'snippet,player,statistics')['items'][0];
+	$video = Youtube::videos()->get($id, 'snippet,player,statistics')['items'][0];
 
-	$channel = $youtube->channels->listchannels('snippet', [
-		'id' => $video['snippet']['channelId'],
-	])['items'][0];
+	$channel = Youtube::channels()
+				->where('id', $video['snippet']['channelId'])
+				->get('snippet');
 
 	return View::make('videos.play', [
-		'channel' => $channel,
+		'channel' => $channel['items'][0],
 		'video' => $video,
 	]);
 }]);
