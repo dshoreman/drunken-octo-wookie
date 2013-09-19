@@ -115,6 +115,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
 		'DaveJamesMiller\Breadcrumbs\BreadcrumbsServiceProvider',
+		'Juncture\YtWrapper\YtWrapperServiceProvider',
 
 	),
 
@@ -182,6 +183,7 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 		'Breadcrumbs'     => 'DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs',
+		'Youtube'         => 'Juncture\YtWrapper\Facades\Youtube',
 
 	),
 
