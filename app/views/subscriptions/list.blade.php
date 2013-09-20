@@ -12,13 +12,13 @@
 	</a>
 @endforeach
 
-@if (isset($subs['prevPageToken']) || isset($subs['nextPageToken']))
+@if (isset($paging['prev']) || isset($paging['next']))
 <ul class="pager">
-	<li class="previous {{ ! isset($subs['prevPageToken']) ? 'disabled' : '' }}">
-		<a href="{{ isset($subs['prevPageToken']) ? URL::to('/subscriptions/50/'.$subs['prevPageToken']) : '#' }}">&larr; Previous</a>
+	<li class="previous {{ ! $paging['prev'] ? 'disabled' : '' }}">
+		<a href="{{ $paging['prev'] ? URL::to('/subscriptions/15/'.$paging['prev']) : '#' }}">&larr; Previous</a>
 	</li>
-	<li class="next {{ ! isset($subs['nextPageToken']) ? 'disabled' : '' }}">
-		<a href="{{ isset($subs['nextPageToken']) ? URL::to('/subscriptions/50/'.$subs['nextPageToken']) : '#' }}">Next &rarr;</a>
+	<li class="next {{ ! $paging['next'] ? 'disabled' : '' }}">
+		<a href="{{ $paging['next'] ? URL::to('/subscriptions/15/'.$paging['next']) : '#' }}">Next &rarr;</a>
 	</li>
 </ul>
 @endif
