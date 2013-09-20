@@ -18,89 +18,17 @@ Route::get('/', ['as' => 'dashboard', function()
 
 Route::get('subscriptions/{results?}/{page?}', [
 			'uses' => 'SubscriptionController@ajax',
-			'as' => 'subscriptions'
+			  'as' => 'subscriptions'
 ]);
 
-Route::get('channels/{id}', ['as' => 'channels', function($id)
-{
-	Youtube::init((object) Config::get('google'));
+Route::get('channels/{id}', ['uses' => 'ChannelController@ajax',
+							   'as' => 'channels']);
 
-	if ( ! Youtube::setToken(Session::get('token')))
-	{
-		return Redirect::to(Youtube::getAuthUrl());
-	}
+Route::get('playlists/{id}', ['uses' => 'PlaylistController@ajax',
+							    'as' => 'playlists']);
 
-	$channel = Youtube::channels()
-				->where('id', $id)
-				->get('id,snippet,status,contentDetails')['items'][0];
-
-	$playlists = Youtube::playlists()
-				->where('channelId', $id)
-				->where('maxResults', 50)
-				->get('id,snippet,status');
-
-	$uploads = $channel['contentDetails']['relatedPlaylists']['uploads'];
-	$uploads = Youtube::playlistItems()
-				->where('playlistId', $uploads)
-				->where('maxResults', 50)
-				->get('id,snippet,status');
-
-	return View::make('channels.index', [
-		'channel' => $channel,
-		'playlists' => $playlists,
-		'uploads' => $uploads['items'],
-	]);
-}]);
-
-Route::get('playlists/{id}', ['as' => 'playlists', function($id)
-{
-	Youtube::init((object) Config::get('google'));
-
-	if ( ! Youtube::setToken(Session::get('token')))
-	{
-		return Redirect::to(Youtube::getAuthUrl());
-	}
-
-	$list = Youtube::playlists()
-			->where('id', $id)
-			->get('id,snippet,status');
-
-	$channel = Youtube::channels()
-				->where('id', $list['items'][0]['snippet']['channelId'])
-				->get('snippet');
-
-	$items = Youtube::playlistItems()
-				->where('playlistId', $id)
-				->where('maxResults', 50)
-                ->get('id,snippet,status');
-
-	return View::make('playlists.index', [
-		'channel' => $channel['items'][0],
-		'list' => $list['items'][0],
-		'items' => $items['items'],
-	]);
-}]);
-
-Route::get('videos/{id}', ['as' => 'player', function($id)
-{
-	Youtube::init((object) Config::get('google'));
-
-	if ( ! Youtube::setToken(Session::get('token')))
-	{
-		return Redirect::to(Youtube::getAuthUrl());
-	}
-
-	$video = Youtube::videos()->get($id, 'snippet,player,statistics')['items'][0];
-
-	$channel = Youtube::channels()
-				->where('id', $video['snippet']['channelId'])
-				->get('snippet');
-
-	return View::make('videos.play', [
-		'channel' => $channel['items'][0],
-		'video' => $video,
-	]);
-}]);
+Route::get('videos/{id}', ['uses' => 'VideoController@ajax',
+							 'as' => 'player']);
 
 Route::get('oauth', function()
 {
