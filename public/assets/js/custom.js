@@ -3,13 +3,17 @@ debug('Debug mode activated!');
 $(document).ready(function() {
 
 	/**
-	 * Litle helper to automatically scroll to the top of
-	 * the page when performing .load() calls.
+	 * A couple helpers to automatically scroll to the
+	 * top of the page when performing .load() calls.
 	 */
+	function scrollToTop(speed) {
+		return $('html, body').animate({scrollTop: 0}, speed);
+	}
+
 	function loadAnimated($el, src) {
 
 		$el.load(src, function() {
-			$('html, body').animate({scrollTop: 0}, 'slow');
+			scrollToTop('slow');
 		});
 
 		return;
