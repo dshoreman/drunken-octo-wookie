@@ -15,10 +15,10 @@
 @if (isset($subs['prevPageToken']) || isset($subs['nextPageToken']))
 <ul class="pager">
 	<li class="previous {{ ! isset($subs['prevPageToken']) ? 'disabled' : '' }}">
-		<a href="{{ isset($subs['prevPageToken']) ? URL::to('/subscriptions/5/'.$subs['prevPageToken']) : '#' }}">&larr; Previous</a>
+		<a href="{{ isset($subs['prevPageToken']) ? URL::to('/subscriptions/50/'.$subs['prevPageToken']) : '#' }}">&larr; Previous</a>
 	</li>
 	<li class="next {{ ! isset($subs['nextPageToken']) ? 'disabled' : '' }}">
-		<a href="{{ isset($subs['nextPageToken']) ? URL::to('/subscriptions/5/'.$subs['nextPageToken']) : '#' }}">Next &rarr;</a>
+		<a href="{{ isset($subs['nextPageToken']) ? URL::to('/subscriptions/50/'.$subs['nextPageToken']) : '#' }}">Next &rarr;</a>
 	</li>
 </ul>
 @endif
