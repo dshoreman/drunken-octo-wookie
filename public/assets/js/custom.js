@@ -48,6 +48,19 @@ $(document).ready(function() {
 
 		e.preventDefault();
 
+		var tab = $(this).attr('href').substring(1),
+			channel = $('h1.media-heading').data('channelid'),
+			baseurl = '/'+tab+'/';
+
+		if (tab == 'playlists') {
+			var url = baseurl+'channel/'+channel;
+
+			debug("loadAnimated($('.tab-pane.playlists'), " + url + ");");
+			loadAnimated($('.tab-pane.playlists'), url);
+		}
+
+		debug(tab);
+
 		$(this).tab('show');
 	});
 

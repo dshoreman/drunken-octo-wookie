@@ -41,4 +41,35 @@ class PlaylistController extends BaseController {
 			],
 		]);
 	}
+
+	public function getByChannel($channelId, $results = 15, $page = null)
+	{
+		Youtube::init((object) Config::get('google'));
+
+		if ( ! Youtube::setToken(Session::get('token')))
+		{
+			return Redirect::to(Youtube::getAuthUrl());
+		}
+
+		$playlists = Youtube::playlists()
+					->where('channelId', $channelId)
+					->where('maxResults', $results);
+
+		if ( ! is_null($page))
+		{
+			$playlists->where('pageToken', $page);
+		}
+		$playlists = $playlists->get('id,snippet,status');
+
+		return View::make('playlists.channel', [
+			'id'        => $channelId,
+			'playlists' => $playlists,
+			'paging'    => [
+				'next'  => (isset($playlists['nextPageToken']) ? $playlists['nextPageToken'] : null),
+				'prev'  => (isset($playlists['prevPageToken']) ? $playlists['prevPageToken'] : null),
+				'all'   => $playlists['pageInfo']['totalResults'],
+				'page'  => $playlists['pageInfo']['resultsPerPage'],
+			],
+		]);
+	}
 }

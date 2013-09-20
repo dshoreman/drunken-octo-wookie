@@ -33,6 +33,11 @@ Route::get('channels/{id}', [
 			  'as' => 'channels'
 ]);
 
+Route::get('playlists/channel/{id}/{results?}/{page?}', [
+			'uses' => 'PlaylistController@getByChannel',
+		      'as' => 'playlistsByChannel'
+]);
+
 Route::get('playlists/{id}/{results?}/{page?}', [
 			'uses' => 'PlaylistController@ajax',
 		      'as' => 'playlists'

@@ -5,7 +5,7 @@
 		<img src="{{ $channel['snippet']['thumbnails']['default']['url'] }}" />
 	</a>
 	<div class="media-body">
-		<h1 class="media-heading">{{ $channel['snippet']['title'] }}</h1>
+		<h1 class="media-heading" data-channelId="{{ $id }}">{{ $channel['snippet']['title'] }}</h1>
 		<p>{{ nl2br($channel['snippet']['description']) }}</p>
 	</div>
 </div>
@@ -17,23 +17,6 @@
 
 <div class="tab-content">
 	<div class="tab-pane fade active in playlists">
-		@foreach ($playlists['items'] as $item)
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">{{ $item['snippet']['title'] }}</h3>
-				</div>
-				<div class="panel-body">
-					<div class="media">
-						<a href="{{ URL::to('playlists/'.$item['id']) }}" class="pull-left">
-							<img src="{{ $item['snippet']['thumbnails']['default']['url'] }}" />
-						</a>
-						<div class="media-body">
-							<p>{{ $item['snippet']['description'] }}</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		@endforeach
 	</div>
 	<div class="tab-pane fade" id="videos">
 		<h3>Videos</h3>
