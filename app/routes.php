@@ -13,6 +13,13 @@
 
 Route::get('/', ['as' => 'dashboard', function()
 {
+	Youtube::init((object) Config::get('google'));
+
+	if ( ! Youtube::setToken(Session::get('token')))
+	{
+		return Redirect::to(Youtube::getAuthUrl());
+	}
+
 	return View::make('app');
 }]);
 
