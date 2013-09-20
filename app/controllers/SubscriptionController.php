@@ -2,7 +2,7 @@
 
 class SubscriptionController extends BaseController {
 
-	public function ajax($results, $page = null)
+	public function ajax($results = 5, $page = null)
 	{
 		Youtube::init((object) Config::get('google'));
 
