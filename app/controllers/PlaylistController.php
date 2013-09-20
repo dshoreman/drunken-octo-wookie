@@ -2,7 +2,7 @@
 
 class PlaylistController extends BaseController {
 
-	public function ajax($id)
+	public function ajax($id, $results = 15, $page = null)
 	{
 		Youtube::init((object) Config::get('google'));
 
@@ -21,13 +21,24 @@ class PlaylistController extends BaseController {
 
 		$items = Youtube::playlistItems()
 					->where('playlistId', $id)
-					->where('maxResults', 50)
-					->get('id,snippet,status');
+					->where('maxResults', $results);
+
+		if ( ! is_null($page))
+		{
+			$items->where('pageToken', $page);
+		}
+		$items = $items->get('id,snippet,status');
 
 		return View::make('playlists.index', [
 			'channel' => $channel['items'][0],
 			'list' => $list['items'][0],
 			'items' => $items['items'],
+			'paging' => [
+				'next' => (isset($items['nextPageToken']) ? $items['nextPageToken'] : null),
+				'prev' => (isset($items['prevPageToken']) ? $items['prevPageToken'] : null),
+				'all'  => $items['pageInfo']['totalResults'],
+				'page' => $items['pageInfo']['resultsPerPage'],
+			],
 		]);
 	}
 }
