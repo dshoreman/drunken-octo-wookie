@@ -13,39 +13,13 @@
 
 Route::get('/', ['as' => 'dashboard', function()
 {
-	Youtube::init((object) Config::get('google'));
-
-	if ( ! Youtube::setToken(Session::get('token')))
-	{
-		return Redirect::to(Youtube::getAuthUrl());
-	}
-
-	try
-	{
-		$subs = Youtube::subscriptions()
-				->where('mine', true)
-				->where('maxResults', 50)
-				->where('order', 'alphabetical')
-				->get('id,snippet,contentDetails');
-
-		return View::make('subscriptions.list', [
-			'subs' => $subs,
-		]);
-	}
-	catch (Google_ServiceException $e)
-	{
-		$htmlBody = sprintf('<p>A service error occurred: <code>%s</code></p>',
-		htmlspecialchars($e->getMessage()));
-	}
-	catch (Google_Exception $e)
-	{
-		$htmlBody = sprintf('<p>An client error occurred: <code>%s</code></p>',
-		htmlspecialchars($e->getMessage()));
-	}
-
-	return $htmlBody;
-
+	return View::make('app');
 }]);
+
+Route::get('subscriptions/{results?}/{page?}', [
+			'uses' => 'SubscriptionController@ajax',
+			'as' => 'subscriptions'
+]);
 
 Route::get('channels/{id}', ['as' => 'channels', function($id)
 {
@@ -106,7 +80,6 @@ Route::get('playlists/{id}', ['as' => 'playlists', function($id)
 		'items' => $items['items'],
 	]);
 }]);
-
 
 Route::get('videos/{id}', ['as' => 'player', function($id)
 {
