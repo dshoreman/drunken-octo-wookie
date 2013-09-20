@@ -3,6 +3,19 @@ debug('Debug mode activated!');
 $(document).ready(function() {
 
 	/**
+	 * Litle helper to automatically scroll to the top of
+	 * the page when performing .load() calls.
+	 */
+	function loadAnimated($el, src) {
+
+		$el.load(src, function() {
+			$('html, body').animate({scrollTop: 0}, 'slow');
+		});
+
+		return;
+	}
+
+	/**
 	 * Toggling sidebar for extra-small viewports
 	 */
 	$('[data-toggle=offcanvas]').click(function() {
@@ -21,11 +34,7 @@ $(document).ready(function() {
 
 		e.preventDefault();
 
-		$('.main-content-panel').load($(this).attr('href'), function() {
-
-			$('html, body').animate({scrollTop: 0}, 'slow');
-
-		});
+		loadAnimated($('.main-content-panel'), $(this).attr('href'));
 	});
 
 	/**
@@ -36,6 +45,18 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		$(this).tab('show');
+	});
+
+	/**
+	 * Load and handle subscription pages
+	 */
+	loadAnimated($('.subscription-list'), $('.subscription-list').data('source'));
+
+	$('.subscription-list').on('click', '.pager a', function(e) {
+
+		e.preventDefault();
+
+		loadAnimated($('.subscription-list'), $(this).attr('href'));
 	});
 
 });
