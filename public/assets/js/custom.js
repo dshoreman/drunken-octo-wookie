@@ -38,7 +38,10 @@ $(document).ready(function() {
 
 		e.preventDefault();
 
-		loadAnimated($('.main-content-panel'), $(this).attr('href'));
+		// Pager links are handled separately
+		if (!$(this).parent().parent().hasClass('pager')) {
+			loadAnimated($('.main-content-panel'), $(this).attr('href'));
+		}
 	});
 
 	/**
@@ -72,8 +75,17 @@ $(document).ready(function() {
 	$('.subscription-list').on('click', '.pager a', function(e) {
 
 		e.preventDefault();
+		debug('pager clicked in .subscription-list');
 
 		loadAnimated($('.subscription-list'), $(this).attr('href'));
+	});
+
+	$('.main-content-panel').on('click', '.tab-pane .pager a', function(e) {
+
+		e.preventDefault();
+		debug('pager clicked in tab pane');
+
+		loadAnimated($(this).parent().parent().parent(), $(this).attr('href'));
 	});
 
 });
