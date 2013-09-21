@@ -47,31 +47,17 @@ $(document).ready(function() {
 	/**
 	 * Initialise any tab groups
 	 */
-	$('body').on('click', '#channel_tabs a', function(e) {
+	$('body').on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
 
-		e.preventDefault();
+		debug('Loading '+tab+' tab...');
 
-		var tab = $(this).attr('href').substring(1),
-			channel = $('h1.media-heading').data('channelid'),
-			baseurl = '/'+tab+'/';
+		var tab = $(e.target).attr('href').substring(1),
+			channel = $(e.target).data('channel'),
+			plistId = $(e.target).data('playlist'),
+			baseurl = '/'+tab+'/channel/',
+			url = baseurl + (tab == 'videos' ? plistId : channel);
 
-		if (tab == 'playlists') {
-			var url = baseurl+'channel/'+channel;
-
-			debug("loadAnimated($('.tab-pane.playlists'), " + url + ");");
-			loadAnimated($('.tab-pane.playlists'), url);
-		}
-		else if (tab == 'videos') {
-			var playlistId = $(this).data('playlist'),
-				url = baseurl+'channel/'+playlistId;
-
-			debug("loadAnimated($('.tab-pane.videos'), "+url+");");
-			loadAnimated($('.tab-pane.videos'), url);
-		}
-
-		debug(tab);
-
-		$(this).tab('show');
+		loadAnimated($('.tab-pane.'+tab), url);
 	});
 
 	/**

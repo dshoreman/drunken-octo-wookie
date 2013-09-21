@@ -11,8 +11,19 @@
 </div>
 
 <ul class="nav nav-tabs nav-justified" id="channel_tabs">
-	<li class="active"><a href="#playlists">Playlists</a></li>
-	<li><a href="#videos" data-playlist="{{ $playlistId }}">Videos</a></li>
+	<li class="active">
+		<a  href="#playlists"
+			data-toggle="tab"
+			data-channel="{{ $id }}">Playlists
+		</a>
+	</li>
+	<li>
+		<a  href="#videos"
+			data-toggle="tab"
+			data-channel="{{ $id }}"
+			data-playlist="{{ $playlistId }}">Videos
+		</a>
+	</li>
 </ul>
 
 <div class="tab-content">
