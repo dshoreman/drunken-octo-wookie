@@ -61,6 +61,13 @@ $(document).ready(function() {
 			debug("loadAnimated($('.tab-pane.playlists'), " + url + ");");
 			loadAnimated($('.tab-pane.playlists'), url);
 		}
+		else if (tab == 'videos') {
+			var playlistId = $(this).data('playlist'),
+				url = baseurl+'channel/'+playlistId;
+
+			debug("loadAnimated($('.tab-pane.videos'), "+url+");");
+			loadAnimated($('.tab-pane.videos'), url);
+		}
 
 		debug(tab);
 

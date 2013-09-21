@@ -15,16 +15,12 @@ class ChannelController extends BaseController {
 					->where('id', $id)
 					->get('id,snippet,status,contentDetails')['items'][0];
 
-		$uploads = $channel['contentDetails']['relatedPlaylists']['uploads'];
-		$uploads = Youtube::playlistItems()
-					->where('playlistId', $uploads)
-					->where('maxResults', 15)
-					->get('id,snippet,status');
+		$playlistId = $channel['contentDetails']['relatedPlaylists']['uploads'];
 
 		return View::make('channels.index', [
 			'id' => $id,
 			'channel' => $channel,
-			'uploads' => $uploads['items'],
+			'playlistId' => $playlistId,
 		]);
 	}
 }

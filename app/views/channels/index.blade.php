@@ -12,31 +12,12 @@
 
 <ul class="nav nav-tabs nav-justified" id="channel_tabs">
 	<li class="active"><a href="#playlists">Playlists</a></li>
-	<li><a href="#videos">Videos</a></li>
+	<li><a href="#videos" data-playlist="{{ $playlistId }}">Videos</a></li>
 </ul>
 
 <div class="tab-content">
-	<div class="tab-pane fade active in playlists">
+	<div class="tab-pane fade active in playlists" id="playlists">
 	</div>
-	<div class="tab-pane fade" id="videos">
-		<h3>Videos</h3>
-		@foreach ($uploads as $video)
-			<div class="panel panel-default video">
-				<div class="panel-heading">
-					<h3 class="panel-title">{{ $video['snippet']['title'] }}</h3>
-				</div>
-				<div class="panel-body">
-					<div class="media">
-						<a href="{{ route('player', $video['snippet']['resourceId']['videoId']) }}" class="pull-left">
-							<img src="{{ $video['snippet']['thumbnails']['default']['url'] }}" />
-						</a>
-						<div class="media-body">
-							<p class="description">{{ Str::limit($video['snippet']['description'], 150, '&hellip;') }}</p>
-							<small>Published by {{ $video['snippet']['channelTitle'] }} on {{ $video['snippet']['publishedAt'] }}</small>
-						</div>
-					</div>
-				</div>
-			</div>
-		@endforeach
+	<div class="tab-pane fade videos" id="videos">
 	</div>
 </div>

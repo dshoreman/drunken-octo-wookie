@@ -35,12 +35,18 @@ Route::get('channels/{id}', [
 
 Route::get('playlists/channel/{id}/{results?}/{page?}', [
 			'uses' => 'PlaylistController@getByChannel',
-		      'as' => 'playlistsByChannel'
+			  'as' => 'playlistsByChannel'
 ]);
 
 Route::get('playlists/{id}/{results?}/{page?}', [
 			'uses' => 'PlaylistController@ajax',
-		      'as' => 'playlists'
+			  'as' => 'playlists'
+]);
+
+
+Route::get('videos/channel/{id}/{results?}/{page?}', [
+			'uses' => 'VideoController@getByPlaylist',
+			  'as' => 'videosByChannel'
 ]);
 
 Route::get('videos/{id}', [
