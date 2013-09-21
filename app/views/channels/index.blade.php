@@ -28,12 +28,16 @@
 
 <div class="tab-content">
 	<div class="tab-pane fade in playlists" id="playlists">
+		<div class="content"></div>
 	</div>
 	<div class="tab-pane fade videos" id="videos">
+		<div class="content"></div>
 	</div>
 </div>
 
 <script type="text/javascript">
 // Hacky hacky inline stuff. Pretend you didn't see this.
 $('#channel_tabs a[href="#playlists"]').tab('show');
+
+$('#playlists .content').multiview();
 </script>

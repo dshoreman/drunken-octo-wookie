@@ -73,6 +73,7 @@
 		}
 		function debugging () { return {{ app('env') == 'production' ? 'false' : 'true' }}; }
 		</script>
+		<script src="/assets/js/multiview.js"></script>
 		<script src="/assets/js/custom.js"></script>
 	</body>
 </html>

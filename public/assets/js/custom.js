@@ -52,7 +52,7 @@ $(document).ready(function() {
 		var tab = $(e.target).attr('href').substring(1);
 		debug('Loading '+tab+' tab...');
 
-		loadAnimated($('.tab-pane.'+tab), '/'+tab+'/channel/' + (
+		loadAnimated($('.tab-pane.'+tab+' .content'), '/'+tab+'/channel/' + (
 			tab == 'videos'
 			 ? $(e.target).data('playlist')
 			 : $(e.target).data('channel')
