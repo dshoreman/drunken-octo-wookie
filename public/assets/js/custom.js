@@ -49,9 +49,8 @@ $(document).ready(function() {
 	 */
 	$('body').on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
 
-		debug('Loading '+tab+' tab...');
-
 		var tab = $(e.target).attr('href').substring(1);
+		debug('Loading '+tab+' tab...');
 
 		loadAnimated($('.tab-pane.'+tab), '/'+tab+'/channel/' + (
 			tab == 'videos'

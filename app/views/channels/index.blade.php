@@ -11,7 +11,7 @@
 </div>
 
 <ul class="nav nav-tabs nav-justified" id="channel_tabs">
-	<li class="active">
+	<li>
 		<a  href="#playlists"
 			data-toggle="tab"
 			data-channel="{{ $id }}">Playlists
@@ -27,8 +27,13 @@
 </ul>
 
 <div class="tab-content">
-	<div class="tab-pane fade active in playlists" id="playlists">
+	<div class="tab-pane fade in playlists" id="playlists">
 	</div>
 	<div class="tab-pane fade videos" id="videos">
 	</div>
 </div>
+
+<script type="text/javascript">
+// Hacky hacky inline stuff. Pretend you didn't see this.
+$('#channel_tabs a[href="#playlists"]').tab('show');
+</script>
