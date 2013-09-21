@@ -51,13 +51,13 @@ $(document).ready(function() {
 
 		debug('Loading '+tab+' tab...');
 
-		var tab = $(e.target).attr('href').substring(1),
-			channel = $(e.target).data('channel'),
-			plistId = $(e.target).data('playlist'),
-			baseurl = '/'+tab+'/channel/',
-			url = baseurl + (tab == 'videos' ? plistId : channel);
+		var tab = $(e.target).attr('href').substring(1);
 
-		loadAnimated($('.tab-pane.'+tab), url);
+		loadAnimated($('.tab-pane.'+tab), '/'+tab+'/channel/' + (
+			tab == 'videos'
+			 ? $(e.target).data('playlist')
+			 : $(e.target).data('channel')
+		));
 	});
 
 	/**
