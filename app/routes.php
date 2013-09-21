@@ -13,6 +13,13 @@
 
 Route::get('/', ['as' => 'dashboard', function()
 {
+	Youtube::init((object) Config::get('google'));
+
+	if ( ! Youtube::setToken(Session::get('token')))
+	{
+		return Redirect::to(Youtube::getAuthUrl());
+	}
+
 	return View::make('app');
 }]);
 
@@ -21,14 +28,31 @@ Route::get('subscriptions/{results?}/{page?}', [
 			  'as' => 'subscriptions'
 ]);
 
-Route::get('channels/{id}', ['uses' => 'ChannelController@ajax',
-							   'as' => 'channels']);
+Route::get('channels/{id}', [
+			'uses' => 'ChannelController@ajax',
+			  'as' => 'channels'
+]);
 
-Route::get('playlists/{id}', ['uses' => 'PlaylistController@ajax',
-							    'as' => 'playlists']);
+Route::get('playlists/channel/{id}/{results?}/{page?}', [
+			'uses' => 'PlaylistController@getByChannel',
+			  'as' => 'playlistsByChannel'
+]);
 
-Route::get('videos/{id}', ['uses' => 'VideoController@ajax',
-							 'as' => 'player']);
+Route::get('playlists/{id}/{results?}/{page?}', [
+			'uses' => 'PlaylistController@ajax',
+			  'as' => 'playlists'
+]);
+
+
+Route::get('videos/channel/{id}/{results?}/{page?}', [
+			'uses' => 'VideoController@getByPlaylist',
+			  'as' => 'videosByChannel'
+]);
+
+Route::get('videos/{id}', [
+			'uses' => 'VideoController@ajax',
+			  'as' => 'player'
+]);
 
 Route::get('oauth', function()
 {

@@ -28,3 +28,14 @@
 		</div>
 	</div>
 @endforeach
+
+@if (isset($paging['prev']) || isset($paging['next']))
+<ul class="pager">
+	<li class="previous {{ ! $paging['prev'] ? 'disabled' : '' }}">
+		<a href="{{ $paging['prev'] ? URL::to('/playlists/'.$item['snippet']['playlistId'].'/15/'.$paging['prev']) : '#' }}">&larr; Previous</a>
+	</li>
+	<li class="next {{ ! $paging['next'] ? 'disabled' : '' }}">
+		<a href="{{ $paging['next'] ? URL::to('/playlists/'.$item['snippet']['playlistId'].'/15/'.$paging['next']) : '#' }}">Next &rarr;</a>
+	</li>
+</ul>
+@endif

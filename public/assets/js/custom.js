@@ -3,13 +3,17 @@ debug('Debug mode activated!');
 $(document).ready(function() {
 
 	/**
-	 * Litle helper to automatically scroll to the top of
-	 * the page when performing .load() calls.
+	 * A couple helpers to automatically scroll to the
+	 * top of the page when performing .load() calls.
 	 */
+	function scrollToTop(speed) {
+		return $('html, body').animate({scrollTop: 0}, speed);
+	}
+
 	function loadAnimated($el, src) {
 
 		$el.load(src, function() {
-			$('html, body').animate({scrollTop: 0}, 'slow');
+			scrollToTop('slow');
 		});
 
 		return;
@@ -34,17 +38,25 @@ $(document).ready(function() {
 
 		e.preventDefault();
 
-		loadAnimated($('.main-content-panel'), $(this).attr('href'));
+		// Pager links are handled separately
+		if (!$(this).parent().parent().hasClass('pager')) {
+			loadAnimated($('.main-content-panel'), $(this).attr('href'));
+		}
 	});
 
 	/**
 	 * Initialise any tab groups
 	 */
-	$('body').on('click', '#channel_tabs a', function(e) {
+	$('body').on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
 
-		e.preventDefault();
+		var tab = $(e.target).attr('href').substring(1);
+		debug('Loading '+tab+' tab...');
 
-		$(this).tab('show');
+		loadAnimated($('.tab-pane.'+tab), '/'+tab+'/channel/' + (
+			tab == 'videos'
+			 ? $(e.target).data('playlist')
+			 : $(e.target).data('channel')
+		));
 	});
 
 	/**
@@ -55,8 +67,17 @@ $(document).ready(function() {
 	$('.subscription-list').on('click', '.pager a', function(e) {
 
 		e.preventDefault();
+		debug('pager clicked in .subscription-list');
 
 		loadAnimated($('.subscription-list'), $(this).attr('href'));
+	});
+
+	$('.main-content-panel').on('click', '.tab-pane .pager a', function(e) {
+
+		e.preventDefault();
+		debug('pager clicked in tab pane');
+
+		loadAnimated($(this).parent().parent().parent(), $(this).attr('href'));
 	});
 
 });
