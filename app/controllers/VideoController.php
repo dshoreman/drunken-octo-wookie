@@ -32,9 +32,21 @@ class VideoController extends BaseController {
 			return Redirect::to(Youtube::getAuthUrl());
 		}
 
-		$uploads = Youtube::playlistItems()
-					->where('playlistId', $playlistId)
-					->where('maxResults', $results);
+		for ($i = 0; $i <= 3; $i++){
+			try {
+				$uploads = Youtube::playlistItems()
+							->where('playlistId', $playlistId)
+							->where('maxResults', $results);
+			}
+			catch (Google_IOException $e) {
+				if ($i < 3)
+				{
+					continue;
+				}
+
+				return View::make('videos.error')->with('e', $e->getMessage());
+			}
+		}
 
 		if ( ! is_null($page))
 		{
