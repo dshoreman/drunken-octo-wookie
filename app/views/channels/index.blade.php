@@ -40,4 +40,5 @@
 $('#channel_tabs a[href="#playlists"]').tab('show');
 
 $('#playlists .content').multiview();
+$('#videos .content').multiview();
 </script>
