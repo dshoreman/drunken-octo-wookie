@@ -34,6 +34,10 @@ body {
 	padding: 5px 10px;
 }
 
+.btn-toolbar {
+	margin: 15px 5px 18px;
+}
+
 
 @media screen and (max-width: 768px) {
 	.row-offcanvas {
