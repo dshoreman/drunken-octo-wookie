@@ -49,14 +49,18 @@ $(document).ready(function() {
 	 */
 	$('body').on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
 
-		var tab = $(e.target).attr('href').substring(1);
+		var tab = $(e.target).attr('href').substring(1)
+			div = $('.tab-pane.'+tab+' .content');
 		debug('Loading '+tab+' tab...');
 
-		loadAnimated($('.tab-pane.'+tab+' .content'), '/'+tab+'/channel/' + (
-			tab == 'videos'
-			 ? $(e.target).data('playlist')
-			 : $(e.target).data('channel')
-		));
+		// Only load it the first time
+		if (div.is(':empty')) {
+			loadAnimated(div, '/'+tab+'/channel/' + (
+				tab == 'videos'
+				 ? $(e.target).data('playlist')
+				 : $(e.target).data('channel')
+			));
+		}
 	});
 
 	/**

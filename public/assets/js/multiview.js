@@ -27,11 +27,12 @@
 		$(this).before(toolbar + '</div></div>');
 
 		$('.btn-toolbar button', $(this).parent()).click(function() {
+			var parent = $(this).parent().parent().parent().attr('id');
 
-			$('.view-minimal, .view-small, .view-list').removeClass('hidden');
-			$('.view-minimal, .view-small, .view-list').hide();
+			$('.view-minimal, .view-small, .view-list', '#'+parent).removeClass('hidden');
+			$('.view-minimal, .view-small, .view-list', '#'+parent).hide();
 
-			$('.view-'+$(this).data('view')).show();
+			$('.view-'+$(this).data('view'), '#'+parent).show();
 		})
 	}
 }( jQuery ));
