@@ -1069,12 +1069,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "71743ce243b2c14494c12fc2713882e95d564ae4"
+                "reference": "77447a3fc7869773007fa3beeb8d6f8de842ec2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/71743ce243b2c14494c12fc2713882e95d564ae4",
-                "reference": "71743ce243b2c14494c12fc2713882e95d564ae4",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/77447a3fc7869773007fa3beeb8d6f8de842ec2a",
+                "reference": "77447a3fc7869773007fa3beeb8d6f8de842ec2a",
                 "shasum": ""
             },
             "require": {
@@ -1135,7 +1135,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2013-09-12 15:16:41"
+            "time": "2013-09-20 17:14:01"
         },
         {
             "name": "predis/predis",
@@ -1333,12 +1333,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "cb7cca99e25cdb4fc96e331eb987204e9c0e8467"
+                "reference": "c69b5f7cf6c4f8d9afe700035af830b903eaf705"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/cb7cca99e25cdb4fc96e331eb987204e9c0e8467",
-                "reference": "cb7cca99e25cdb4fc96e331eb987204e9c0e8467",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/c69b5f7cf6c4f8d9afe700035af830b903eaf705",
+                "reference": "c69b5f7cf6c4f8d9afe700035af830b903eaf705",
                 "shasum": ""
             },
             "require": {
@@ -1377,7 +1377,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-19 09:45:20"
+            "time": "2013-09-22 18:04:39"
         },
         {
             "name": "symfony/css-selector",
@@ -1493,12 +1493,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "56db2f7788c8a34e0250ba0d1bee50d63eabdfb7"
+                "reference": "a2e959551401722370bdf544e75549bc20fc9e4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/56db2f7788c8a34e0250ba0d1bee50d63eabdfb7",
-                "reference": "56db2f7788c8a34e0250ba0d1bee50d63eabdfb7",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/a2e959551401722370bdf544e75549bc20fc9e4e",
+                "reference": "a2e959551401722370bdf544e75549bc20fc9e4e",
                 "shasum": ""
             },
             "require": {
@@ -1537,7 +1537,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-19 09:45:20"
+            "time": "2013-09-22 18:04:39"
         },
         {
             "name": "symfony/event-dispatcher",
