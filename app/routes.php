@@ -1,17 +1,5 @@
 <?php
 
-$client = new Google_Client();
-
-$client->setDeveloperKey(Config::get('google.developerKey'));
-$client->setClientId(Config::get('google.clientId'));
-$client->setClientSecret(Config::get('google.clientSecret'));
-
-$redirect = URL::to('oauth');
-$client->setRedirectUri($redirect);
-
-$client->loadService('YouTube');
-$youtube = new Google_YoutubeService($client);
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -23,167 +11,56 @@ $youtube = new Google_YoutubeService($client);
 |
 */
 
-Route::get('/', ['as' => 'dashboard', function() use ($client, $youtube)
+Route::get('/', ['as' => 'dashboard', function()
 {
-	if ($token = Session::get('token'))
+	Youtube::init((object) Config::get('google'));
+
+	if ( ! Youtube::setToken(Session::get('token')))
 	{
-		$client->setAccessToken($token);
+		return Redirect::to(Youtube::getAuthUrl());
 	}
 
-	if ( ! $client->getAccessToken())
-	{
-		$state = mt_rand();
-		$client->setState($state);
-		Session::put('state', $state);
-
-		return Redirect::to($client->createAuthUrl());
-	}
-
-	try
-	{
-		$searchResponse = $youtube->subscriptions->listSubscriptions('id,snippet,contentDetails', [
-			'mine' => true,
-			'maxResults' => 50,
-			'order' => 'alphabetical',
-		]);
-
-		return View::make('subscriptions.list', [
-			'subs' => $searchResponse,
-		]);
-	}
-	catch (Google_ServiceException $e)
-	{
-		$htmlBody = sprintf('<p>A service error occurred: <code>%s</code></p>',
-		htmlspecialchars($e->getMessage()));
-	}
-	catch (Google_Exception $e)
-	{
-		$htmlBody = sprintf('<p>An client error occurred: <code>%s</code></p>',
-		htmlspecialchars($e->getMessage()));
-	}
-
-	return $htmlBody;
-
+	return View::make('app');
 }]);
 
-Route::get('channels/{id}', ['as' => 'channels', function($id) use ($client, $youtube)
+Route::get('subscriptions/{results?}/{page?}', [
+			'uses' => 'SubscriptionController@ajax',
+			  'as' => 'subscriptions'
+]);
+
+Route::get('channels/{id}', [
+			'uses' => 'ChannelController@ajax',
+			  'as' => 'channels'
+]);
+
+Route::get('playlists/channel/{id}/{results?}/{page?}', [
+			'uses' => 'PlaylistController@getByChannel',
+			  'as' => 'playlistsByChannel'
+]);
+
+Route::get('playlists/{id}/{results?}/{page?}', [
+			'uses' => 'PlaylistController@ajax',
+			  'as' => 'playlists'
+]);
+
+
+Route::get('videos/channel/{id}/{results?}/{page?}', [
+			'uses' => 'VideoController@getByPlaylist',
+			  'as' => 'videosByChannel'
+]);
+
+Route::get('videos/{id}', [
+			'uses' => 'VideoController@ajax',
+			  'as' => 'player'
+]);
+
+Route::get('oauth', function()
 {
-	if ($token = Session::get('token'))
-	{
-		$client->setAccessToken($token);
-	}
+	Youtube::init((object) Config::get('google'));
 
-	if ( ! $client->getAccessToken())
-	{
-		$state = mt_rand();
-		$client->setState($state);
-		Session::put('state', $state);
+	$token = Youtube::auth();
 
-		return Redirect::to($client->createAuthUrl());
-	}
-
-	$channel = $youtube->channels->listchannels('id,snippet,status,contentDetails', [
-		'id' => $id,
-	])['items'][0];
-
-	$playlists = $youtube->playlists->listPlaylists('id,snippet,status', [
-		'channelId' => $id,
-		'maxResults' => 50,
-	]);
-
-	$uploads = $channel['contentDetails']['relatedPlaylists']['uploads'];
-	$uploads = $youtube->playlistItems->listPlaylistItems('id,snippet,status', [
-		'playlistId' => $uploads,
-		'maxResults' => 50,
-	])['items'];
-
-	return View::make('channels.index', [
-		'channel' => $channel,
-		'playlists' => $playlists,
-		'uploads' => $uploads,
-	]);
-}]);
-
-Route::get('playlists/{id}', ['as' => 'playlists', function($id) use ($client, $youtube)
-{
-	if ($token = Session::get('token'))
-	{
-		$client->setAccessToken($token);
-	}
-
-	if ( ! $client->getAccessToken())
-	{
-		$state = mt_rand();
-		$client->setState($state);
-		Session::put('state', $state);
-
-		return Redirect::to($client->createAuthUrl());
-	}
-
-	$list = $youtube->playlists->listPlaylists('id,snippet,status', [
-		'id' => $id,
-	]);
-
-	$channel = $youtube->channels->listchannels('snippet', [
-		'id' => $list['items'][0]['snippet']['channelId'],
-	]);
-
-	$items = $youtube->playlistItems->listPlaylistItems('id,snippet,status', [
-		'playlistId' => $id,
-		'maxResults' => 50,
-	]);
-
-	return View::make('playlists.index', [
-		'channel' => $channel['items'][0],
-		'list' => $list['items'][0],
-		'items' => $items['items'],
-	]);
-}]);
-
-
-Route::get('videos/{id}', ['as' => 'player', function($id) use ($client, $youtube)
-{
-	if ($token = Session::get('token'))
-	{
-		$client->setAccessToken($token);
-	}
-
-	if ( ! $client->getAccessToken())
-	{
-		$state = mt_rand();
-		$client->setState($state);
-		Session::put('state', $state);
-
-		return Redirect::to($client->createAuthUrl());
-	}
-
-	$video = $youtube->videos->listVideos($id, 'snippet,player,statistics')['items'][0];
-
-	$channel = $youtube->channels->listchannels('snippet', [
-		'id' => $video['snippet']['channelId'],
-	])['items'][0];
-
-	return View::make('videos.play', [
-		'channel' => $channel,
-		'video' => $video,
-	]);
-}]);
-
-Route::get('oauth', function() use ($client, $youtube)
-{
-	if ( ! $code = Input::get('code'))
-	{
-		throw new Exception('Missing code');
-	}
-
-	if (strval(Session::get('state')) !== strval(Input::get('state')))
-	{
-		throw new Exception('Session state did not match');
-	}
-
-	$client->authenticate();
-
-	Session::put('token', $client->getAccessToken());
+	Session::put('token', $token);
 
 	return Redirect::to('/');
 
